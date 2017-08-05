@@ -1,12 +1,7 @@
-/**
- * DeviceDetect
- *
- * @version 2.0 (02/01/2017)
- */
-(function($) {
+(function ($) {
     'use strict';
 
-    $.DeviceDetect = function(options) {
+    $.DeviceDetect = function (options) {
         // Config
         $.extend((this.settings = {}), $.DeviceDetect.defaults, options);
 
@@ -31,7 +26,7 @@
         onCheckDevice: undefined,
         onGetDevices: undefined,
         onCheckScreen: undefined,
-        onGetFormats: undefined,
+        onGetFormats: undefined
     };
 
     $.DeviceDetect.prototype = {
@@ -41,7 +36,7 @@
          * @param  string type Nom de la règle à tester
          * @return bool
          */
-        checkUserAgent: function(type) {
+        checkUserAgent: function (type) {
             var regex = new RegExp(this.devicesRules[type], 'i');
 
             return regex.test(this.userAgent);
@@ -52,7 +47,7 @@
          *
          * @return setDevices()
          */
-        checkDevice: function() {
+        checkDevice: function () {
             // Modification du type
             if (this.checkUserAgent('phones')) {
                 this.type = 'smartphone';
@@ -66,7 +61,7 @@
             if (this.settings.onCheckDevice !== undefined) {
                 this.settings.onCheckDevice.call({
                     DeviceDetect: this,
-                    type: this.type
+                    type: this.getType()
                 });
             }
 
@@ -80,7 +75,7 @@
          * @param  int width Largeur écran
          * @return setDevices()
          */
-        checkScreen: function(width) {
+        checkScreen: function (width) {
             if (width > this.settings.maxWidth.smartphone && width <= this.settings.maxWidth.tablet) {
                 this.type = 'tablet';
             } else if (width <= this.settings.maxWidth.smartphone) {
@@ -93,7 +88,7 @@
             if (this.settings.onCheckScreen !== undefined) {
                 this.settings.onCheckScreen.call({
                     DeviceDetect: this,
-                    type: this.type
+                    type: this.getType()
                 });
             }
 
@@ -106,11 +101,11 @@
          *
          * @return object {smartphone, tablet, desktop}
          */
-        setDevices: function() {
+        setDevices: function () {
             // En fonction du type, on défini les devices
-            this.devices.smartphone = (this.type === 'smartphone');
-            this.devices.tablet = (this.type === 'tablet');
-            this.devices.desktop = (this.type === 'desktop');
+            this.devices.smartphone = (this.getType() === 'smartphone');
+            this.devices.tablet = (this.getType() === 'tablet');
+            this.devices.desktop = (this.getType() === 'desktop');
 
             return this.devices;
         },
@@ -120,9 +115,14 @@
          *
          * @return object {smartphone, tablet, desktop}
          */
-        getDevices: function() {
+        getDevices: function () {
             // Test
             this.checkDevice();
+
+            // 2ème passe si device=desktop
+            if (this.getType() === 'desktop') {
+                this.getFormats();
+            }
 
             // User callback
             if (this.settings.onGetDevices !== undefined) {
@@ -140,7 +140,7 @@
          *
          * @return object {smartphone, tablet, desktop}
          */
-        getFormats: function() {
+        getFormats: function () {
             var width = $(window).width();
 
             // Test
@@ -159,18 +159,27 @@
         },
 
         /**
+         * Récupère le type du périphérique testé
+         *
+         * @return string
+         */
+        getType: function () {
+            return this.type;
+        },
+
+        /**
          * Ajoute un événement de type resize
          *
          * @param function callback Fonction utilisateur au resize
          */
-        onResize: function(callback) {
+        onResize: function (callback) {
             var self = this;
             var timeout;
 
-            $(window).on('resize', function() {
+            $(window).on('resize.devicedetect', function () {
                 clearTimeout(timeout);
 
-                timeout = setTimeout(function() {
+                timeout = setTimeout(function () {
                     // Mise à jour des formats
                     self.getFormats();
 

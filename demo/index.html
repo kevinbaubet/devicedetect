@@ -2,17 +2,23 @@
 <html>
     <head>
         <meta charset="utf-8" />
+        <meta content="width=device-width, user-scalable=no, maximum-scale=1.0, initial-scale=1" name="viewport" />
         <title>DeviceDetect</title>
         <link rel="stylesheet" href="demo.css" />
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" ></script>
+        <script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
 
         <script src="../src/devicedetect.js"></script>
         <script>
-            jQuery(document).ready(function($) {
+            jQuery(document).ready(function ($) {
                 var elements = {
                     devices: $('#devices')
                 };
-                var setDevices = function(devices) {
+
+                // Demo function
+                var setDevices = function (devices) {
+                    elements.devices.empty();
+                    console.log(devices);
+
                     $.each(devices, function(device, isCurrent) {
                         $('<li>', {
                             html: device + ' : <strong>' + isCurrent + '</strong>'
@@ -28,14 +34,13 @@
                 setDevices(devices);
 
                 // Au resize
-                DeviceDetect.onResize(function() {
-                    elements.devices.empty();
+                DeviceDetect.onResize(function () {
                     setDevices(this.devices);
                 });
             });
         </script>
     </head>
-    <body class="togglemenu-hover">
+    <body>
         <div class="page">
             <h1>Device Detect</h1>
 
