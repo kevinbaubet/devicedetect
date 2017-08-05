@@ -1,6 +1,6 @@
 # Documentation DeviceDetect
 
-Ce script permet de détecter le support utilisé (smartphone, tablet, desktop) en fonction du user-agent ou de la dimension du navigateur.
+Ce script permet de détecter le support utilisé (smartphone, tablet, desktop) en fonction du user-agent et/ou de la dimension du navigateur.
 
 
 ## Initialisation
@@ -30,4 +30,5 @@ Ce script permet de détecter le support utilisé (smartphone, tablet, desktop) 
 | checkScreen | **width** *integer* Largeur d'écran                                | Test l'écran en fonction de la largeur                      |
 | getDevices  | -                                                                  | Récupération des périphériques via le User Agent            |
 | getFormats  | -                                                                  | Récupération des périphériques via la largeur de la fenêtre |
+| getType     | -                                                                  | Récupération du périphérique testé                          |
 | onResize    | **callback** *function* Callback utilisé lors du resize de l'écran | Ajoute un événement de type resize                          |
