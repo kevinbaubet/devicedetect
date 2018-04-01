@@ -44,8 +44,6 @@
 
         /**
          * Test un device en fonction d'une règle
-         *
-         * @return setDevices()
          */
         checkDevice: function () {
             // Modification du type
@@ -60,13 +58,14 @@
             // User callback
             if (this.settings.onCheckDevice !== undefined) {
                 this.settings.onCheckDevice.call({
-                    DeviceDetect: this,
+                    deviceDetect: this,
                     type: this.getType()
                 });
             }
 
             // Définition des devices
-            return this.setDevices();
+            this.setDevices();
+            return this;
         },
 
         /**
@@ -87,13 +86,14 @@
             // User callback
             if (this.settings.onCheckScreen !== undefined) {
                 this.settings.onCheckScreen.call({
-                    DeviceDetect: this,
+                    deviceDetect: this,
                     type: this.getType()
                 });
             }
 
             // Définition des devices
-            return this.setDevices();
+            this.setDevices();
+            return this;
         },
 
         /**
@@ -107,7 +107,7 @@
             this.devices.tablet = (this.getType() === 'tablet');
             this.devices.desktop = (this.getType() === 'desktop');
 
-            return this.devices;
+            return this;
         },
 
         /**
@@ -127,7 +127,7 @@
             // User callback
             if (this.settings.onGetDevices !== undefined) {
                 this.settings.onGetDevices.call({
-                    DeviceDetect: this,
+                    deviceDetect: this,
                     devices: this.devices
                 });
             }
@@ -149,7 +149,7 @@
             // User callback
             if (this.settings.onGetFormats !== undefined) {
                 this.settings.onGetFormats.call({
-                    DeviceDetect: this,
+                    deviceDetect: this,
                     windowWidth: width,
                     devices: this.devices
                 });
@@ -176,7 +176,7 @@
             var self = this;
             var timeout;
 
-            $(window).on('resize.devicedetect', function () {
+            $(window).on('resize.devicedetect orientationchange.devicedetect', function (event) {
                 clearTimeout(timeout);
 
                 timeout = setTimeout(function () {
@@ -187,7 +187,8 @@
                     if (callback !== undefined && typeof callback === 'function') {
                         callback.call({
                             window: this,
-                            DeviceDetect: self,
+                            event: event,
+                            deviceDetect: self,
                             devices: self.devices
                         });
                     }
