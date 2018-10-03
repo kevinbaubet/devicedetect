@@ -23,10 +23,7 @@
             tablet: 1023
         },
         resizeTimeout: 100,
-        onCheckDevice: undefined,
-        onGetDevices: undefined,
-        onCheckScreen: undefined,
-        onGetFormats: undefined
+        onGetDevices: undefined
     };
 
     $.DeviceDetect.prototype = {
@@ -55,14 +52,6 @@
                 this.type = 'desktop';
             }
 
-            // User callback
-            if (this.settings.onCheckDevice !== undefined) {
-                this.settings.onCheckDevice.call({
-                    deviceDetect: this,
-                    type: this.getType()
-                });
-            }
-
             // Définition des devices
             this.setDevices();
             return this;
@@ -81,14 +70,6 @@
                 this.type = 'smartphone';
             } else {
                 this.type = 'desktop';
-            }
-
-            // User callback
-            if (this.settings.onCheckScreen !== undefined) {
-                this.settings.onCheckScreen.call({
-                    deviceDetect: this,
-                    type: this.getType()
-                });
             }
 
             // Définition des devices
@@ -146,15 +127,6 @@
             // Test
             this.checkScreen(width);
 
-            // User callback
-            if (this.settings.onGetFormats !== undefined) {
-                this.settings.onGetFormats.call({
-                    deviceDetect: this,
-                    windowWidth: width,
-                    devices: this.devices
-                });
-            }
-
             return this.devices;
         },
 
@@ -181,7 +153,7 @@
 
                 timeout = setTimeout(function () {
                     // Mise à jour des formats
-                    self.getFormats();
+                    self.getDevices();
 
                     // User callback
                     if (callback !== undefined && typeof callback === 'function') {
