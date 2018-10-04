@@ -5,7 +5,31 @@ Ce script permet de détecter le support utilisé (smartphone, tablet, desktop) 
 
 ## Initialisation
 
-    var DeviceDetect = new $.DeviceDetect();
+    var deviceDetect = new $.DeviceDetect();
+    var devices = deviceDetect.getDevices();
+    
+    console.log(devices);
+    
+    if (devices.mobile) {
+        // on mobile
+    }
+    if (devices.tablet) {
+        // on tablet
+    }
+    if (devices.desktop) {
+        // on desktop
+    }
+    if (!devices.desktop) {
+        // on mobile or tablet
+    }
+   
+    deviceDetect.onResize(function () {
+        console.log(this.devices);
+    });
+    
+    deviceDetect.onOldBrowser(function () {
+        // show notice
+    });
 
 
 ## Options
