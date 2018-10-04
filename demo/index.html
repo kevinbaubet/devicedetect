@@ -12,6 +12,7 @@
         <script>
             jQuery(document).ready(function ($) {
                 var elements = {
+                    body: $('body'),
                     devices: $('#devices')
                 };
 
@@ -37,6 +38,16 @@
                 // Au resize
                 deviceDetect.onResize(function () {
                     setDevices(this.devices);
+                });
+
+                // Old browser
+                deviceDetect.onOldBrowser(function () {
+                    setDevices(this.devices);
+
+                    $('<div>', {
+                        'class': 'notice notice--browser',
+                        html: '<p>This website is not optimized for your browser version.</p>'
+                    }).appendTo(elements.body);
                 });
             });
         </script>
