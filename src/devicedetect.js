@@ -14,6 +14,7 @@
             oldbrowser: false
         };
         this.type = null;
+        this.windowWidth = $(window).width();
 
         return this;
     };
@@ -25,7 +26,7 @@
         },
         rules: {
             'mobile': 'iphone|ipod|Android.*Mobile|Android.*Mobile Safari|blackberry|opera|mini|windows\\sce|palm|smartphone|iemobile',
-            'tablet': 'ipad|Android.*Safari|android 3.0|xoom|sch-i800|playbook|tablet|kindle',
+            'tablet': 'ipad|Android.*Safari|android 3.0|xoom|sch-i800|playbook|tablet(?! PC)|kindle',
             'oldbrowser': 'MSIE ([0-9]|10)\\.'
         },
         resizeTimeout: 100,
@@ -75,11 +76,10 @@
          * @return setDevices()
          */
         checkScreen: function () {
-            var width = $(window).width();
-
-            if (width > this.settings.maxWidth.mobile && width <= this.settings.maxWidth.tablet) {
+            // Modification du type
+            if (this.getWindowWidth() > this.settings.maxWidth.mobile && this.getWindowWidth() <= this.settings.maxWidth.tablet) {
                 this.type = 'tablet';
-            } else if (width <= this.settings.maxWidth.mobile) {
+            } else if (this.getWindowWidth() <= this.settings.maxWidth.mobile) {
                 this.type = 'mobile';
             } else {
                 this.type = 'desktop';
@@ -138,6 +138,16 @@
         },
 
         /**
+         * Récupère la taille actuelle du navigateur
+         * Attention, il faut exécuter onResize() pour mettre à jour la valeur
+         *
+         * @return int
+         */
+        getWindowWidth: function () {
+            return parseInt(this.windowWidth);
+        },
+
+        /**
          * Ajoute un événement de type resize
          *
          * @param function callback Fonction utilisateur au resize
@@ -150,6 +160,9 @@
                 clearTimeout(timeout);
 
                 timeout = setTimeout(function () {
+                    // Mise à jour de la taille du navigateur
+                    self.windowWidth = $(window).width();
+
                     // Mise à jour des formats
                     self.getDevices();
 
