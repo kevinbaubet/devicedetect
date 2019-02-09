@@ -3,7 +3,7 @@
 
     $.DeviceDetect = function (options) {
         // Config
-        $.extend((this.settings = {}), $.DeviceDetect.defaults, options);
+        $.extend(true, this.settings = {}, $.DeviceDetect.defaults, options);
 
         // Variables
         this.userAgent = window.navigator.userAgent;
@@ -38,12 +38,14 @@
         /**
          * Test un type de règle
          *
-         * @param  string type Nom de la règle à tester
-         * @return bool
+         * @param  type (string) Nom de la règle à tester
+         * @return boolean
          */
         checkUserAgent: function (type) {
+            var regex;
+
             if (this.settings.rules[type] !== undefined) {
-                var regex = new RegExp(this.settings.rules[type], 'i');
+                regex = new RegExp(this.settings.rules[type], 'i');
 
                 return regex.test(this.userAgent);
             }
@@ -53,8 +55,6 @@
 
         /**
          * Test un device en fonction d'une règle
-
-         * @return setDevices()
          */
         checkDevice: function () {
             // Modification du type
@@ -72,8 +72,6 @@
 
         /**
          * Test l'écran en fonction de la largeur
-         *
-         * @return setDevices()
          */
         checkScreen: function () {
             // Modification du type
@@ -91,8 +89,6 @@
 
         /**
          * Définition des devices en fonction du type
-         *
-         * @return object {mobile, tablet, desktop}
          */
         setDevices: function () {
             // En fonction du type, on défini les devices
@@ -150,7 +146,7 @@
         /**
          * Ajoute un événement de type resize
          *
-         * @param function callback Fonction utilisateur au resize
+         * @param callback Fonction utilisateur au resize
          */
         onResize: function (callback) {
             var self = this;
