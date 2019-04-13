@@ -1,6 +1,13 @@
 (function ($) {
     'use strict';
 
+    /**
+     * DeviceDetect
+     *
+     * @param {object=undefined} options
+     *
+     * @return {$.DeviceDetect}
+     */
     $.DeviceDetect = function (options) {
         // Config
         $.extend(true, this.settings = {}, $.DeviceDetect.defaults, options);
@@ -14,7 +21,7 @@
             oldbrowser: false
         };
         this.type = null;
-        this.windowWidth = $(window).width();
+        this.windowWidth = window.innerWidth;
 
         return this;
     };
@@ -38,7 +45,8 @@
         /**
          * Test un type de règle
          *
-         * @param  type (string) Nom de la règle à tester
+         * @param  {string} type
+         *
          * @return boolean
          */
         checkUserAgent: function (type) {
@@ -75,10 +83,10 @@
          */
         checkScreen: function () {
             // Modification du type
-            if (this.getWindowWidth() > this.settings.maxWidth.mobile && this.getWindowWidth() <= this.settings.maxWidth.tablet) {
-                this.type = 'tablet';
-            } else if (this.getWindowWidth() <= this.settings.maxWidth.mobile) {
+            if (this.getWindowWidth() <= this.settings.maxWidth.mobile) {
                 this.type = 'mobile';
+            } else if (this.getWindowWidth() <= this.settings.maxWidth.tablet) {
+                this.type = 'tablet';
             } else {
                 this.type = 'desktop';
             }
@@ -91,10 +99,9 @@
          * Définition des devices en fonction du type
          */
         setDevices: function () {
-            // En fonction du type, on défini les devices
-            this.devices.mobile = (this.getType() === 'mobile');
-            this.devices.tablet = (this.getType() === 'tablet');
-            this.devices.desktop = (this.getType() === 'desktop');
+            this.devices.mobile = this.getType() === 'mobile';
+            this.devices.tablet = this.getType() === 'tablet';
+            this.devices.desktop = this.getType() === 'desktop';
 
             return this;
         },
@@ -102,7 +109,7 @@
         /**
          * Récupération des périphériques via le User Agent
          *
-         * @return object {smartphone, tablet, desktop}
+         * @return object
          */
         getDevices: function () {
             // Test
@@ -140,13 +147,13 @@
          * @return int
          */
         getWindowWidth: function () {
-            return parseInt(this.windowWidth);
+            return this.windowWidth;
         },
 
         /**
          * Ajoute un événement de type resize
          *
-         * @param callback Fonction utilisateur au resize
+         * @param {function} callback
          */
         onResize: function (callback) {
             var self = this;
@@ -157,7 +164,7 @@
 
                 timeout = setTimeout(function () {
                     // Mise à jour de la taille du navigateur
-                    self.windowWidth = $(window).width();
+                    self.windowWidth = window.innerWidth;
 
                     // Mise à jour des formats
                     self.getDevices();
@@ -173,20 +180,24 @@
                     }
                 }, self.settings.resizeTimeout);
             });
+
+            return self;
         },
 
         /**
          * Traitement sur les anciens navigateurs
          *
-         * @param callback
+         * @param {function} callback
          */
         onOldBrowser: function (callback) {
-            if ((this.devices.oldbrowser = (this.checkUserAgent('oldbrowser'))) && callback !== undefined && typeof callback === 'function') {
+            if ((this.devices.oldbrowser = this.checkUserAgent('oldbrowser')) && callback !== undefined && typeof callback === 'function') {
                 callback.call({
                     deviceDetect: this,
                     devices: this.devices
                 });
             }
+
+            return this;
         }
     };
 })(jQuery);

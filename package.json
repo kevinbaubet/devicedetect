@@ -1,6 +1,6 @@
 {
   "name": "devicedetect",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "main": "./dist/devicedetect.min.js",
   "repository": "https://github.com/kevinbaubet/devicedetect.git",
   "author": "Kévin Baubet <contact@kevinbaubet.fr>",
