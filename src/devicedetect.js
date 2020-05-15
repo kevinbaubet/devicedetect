@@ -47,7 +47,7 @@
          *
          * @param  {string} type
          *
-         * @return boolean
+         * @return {boolean}
          */
         checkUserAgent: function (type) {
             var regex;
@@ -67,11 +67,11 @@
         checkDevice: function () {
             // Modification du type
             if (this.checkUserAgent('mobile')) {
-                this.type = 'mobile';
+                this.setType('mobile');
             } else if (this.checkUserAgent('tablet')) {
-                this.type = 'tablet';
+                this.setType('tablet');
             } else {
-                this.type = 'desktop';
+                this.setType('desktop');
             }
 
             // Définition des devices
@@ -84,11 +84,11 @@
         checkScreen: function () {
             // Modification du type
             if (this.getWindowWidth() <= this.settings.maxWidth.mobile) {
-                this.type = 'mobile';
+                this.setType('mobile');
             } else if (this.getWindowWidth() <= this.settings.maxWidth.tablet) {
-                this.type = 'tablet';
+                this.setType('tablet');
             } else {
-                this.type = 'desktop';
+                this.setType('desktop');
             }
 
             // Définition des devices
@@ -99,9 +99,9 @@
          * Définition des devices en fonction du type
          */
         setDevices: function () {
-            this.devices.mobile = this.getType() === 'mobile';
-            this.devices.tablet = this.getType() === 'tablet';
-            this.devices.desktop = this.getType() === 'desktop';
+            this.devices.mobile = this.is('mobile');
+            this.devices.tablet = this.is('tablet');
+            this.devices.desktop = this.is('desktop');
 
             return this;
         },
@@ -109,7 +109,7 @@
         /**
          * Récupération des périphériques via le User Agent
          *
-         * @return object
+         * @return {object}
          */
         getDevices: function () {
             // Test
@@ -132,19 +132,41 @@
         },
 
         /**
+         * Définition du type courant
+         *
+         * @param {string} type
+         */
+        setType: function (type) {
+            this.type = type;
+
+            return this;
+        },
+
+        /**
          * Récupère le type du périphérique testé
          *
-         * @return string
+         * @return {string}
          */
         getType: function () {
             return this.type;
         },
 
         /**
+         * Détermine si le type de périphérique est l'actuel
+         *
+         * @param {string} type
+         *
+         * @return {boolean}
+         */
+        is: function (type) {
+            return this.getType() === type;
+        },
+
+        /**
          * Récupère la taille actuelle du navigateur
          * Attention, il faut exécuter onResize() pour mettre à jour la valeur
          *
-         * @return int
+         * @return {int}
          */
         getWindowWidth: function () {
             return this.windowWidth;

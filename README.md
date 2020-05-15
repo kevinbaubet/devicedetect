@@ -49,7 +49,8 @@ Ce script permet de détecter le support utilisé (mobile, tablet, desktop) en f
 | Méthode        | Arguments                                                              | Description                                                                                            |
 |----------------|------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
 | getDevices     | -                                                                      | Récupération des périphériques via le User Agent                                                       |
-| getType        | -                                                                      | Récupération du périphérique testé                                                                     |
+| getType        | -                                                                      | Récupération du périphérique courant                                                                   |
+| is             | **type** *string* Type de périphérique                                 | Détermine si le type de périphérique est l'actuel                                                      |
 | getWindowWidth | -                                                                      | Récupère la taille actuelle du navigateur (utilisez onResize() pour mettre à jour la valeur au resize) |
 | checkUserAgent | **type** *string* Nom de la règle à utiliser (option "rules")          | Test un type de règle                                                                                  |
 | onResize       | **callback** *function* Callback executé lors du resize de l'écran     | Ajoute un événement de type resize                                                                     |
