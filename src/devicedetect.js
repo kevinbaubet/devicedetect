@@ -220,6 +220,24 @@
             }
 
             return this;
+        },
+
+        /**
+         * Execute le callback à chaque changement des devices (load, resize, old browser)
+         *
+         * @param {function} callback
+         */
+        onChange: function (callback) {
+            if (callback !== undefined && typeof callback === 'function') {
+                callback.call({
+                    deviceDetect: this,
+                    devices: this.devices
+                });
+                this.onOldBrowser(callback);
+                this.onResize(callback);
+            }
+
+            return this;
         }
     };
 })(jQuery);

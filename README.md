@@ -55,6 +55,7 @@ Ce script permet de détecter le support utilisé (mobile, tablet, desktop) en f
 | checkUserAgent | **type** *string* Nom de la règle à utiliser (option "rules")          | Test un type de règle                                                                                  |
 | onResize       | **callback** *function* Callback executé lors du resize de l'écran     | Ajoute un événement de type resize                                                                     |
 | onOldBrowser   | **callback** *function* Callback executé si c'est un ancien navigateur | Traitement sur les anciens navigateurs                                                                 |
+| onChange       | **callback** *function* Callback executé à chaque changement           | Execute le callback à chaque changement des devices (load, resize, old browser)                        |
 
 
 ## Ajouter un périphérique personnalisé
