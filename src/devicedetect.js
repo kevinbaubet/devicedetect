@@ -34,7 +34,7 @@
         rules: {
             'mobile': 'iphone|ipod|Android.*Mobile|Android.*Mobile Safari|blackberry|opera|mini|windows\\sce|palm|smartphone|iemobile',
             'tablet': 'ipad|Android.*Safari|android 3.0|xoom|sch-i800|playbook|tablet(?! PC)|kindle',
-            'oldbrowser': 'MSIE ([0-9]|10)\\.'
+            'oldbrowser': 'MSIE ([0-9]|10)\\.|Trident\\/7\\.0;(.*)rv:11\\.0'
         },
         resizeTimeout: 100,
         onGetDevices: undefined
